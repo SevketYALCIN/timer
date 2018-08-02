@@ -1,12 +1,8 @@
-# webpack-react-typescript-boilerplate
+# timer
 
-Webpack configuration boilerplate for React / Typescript, including:
+Full screen timer application with schedule planner.
 
-- Typescript loader
-- Sass -> Css loader
-- Image loader
-- Bundling into HTML plugin
-- Dev server with hot reloading
+React/Typescript/Sass boilerplate used: https://github.com/SevketYALCIN/webpack-react-typescript-boilerplate
 
 To start the development environment, run:
 
