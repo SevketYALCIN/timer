@@ -1,11 +1,12 @@
 import * as React from "react";
+import Timer from '../timer/timer'
 import './app.scss';
 
 class App extends React.Component<AppProps> {
 	render() {
 		return (
 			<div className="app">
-				<h1>Timer</h1>
+				<Timer />
 			</div>
 		);
 	}
