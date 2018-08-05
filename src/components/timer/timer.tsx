@@ -2,6 +2,7 @@ import * as React from 'react'
 import './timer.scss'
 
 export default class Timer extends React.Component<null, TimerState> {
+  private audioInput: React.RefObject<HTMLAudioElement>;
   constructor() {
     super(null)
     this.state = {
@@ -10,6 +11,7 @@ export default class Timer extends React.Component<null, TimerState> {
       min: "00",
       sec: "02"
     }
+    this.audioInput = React.createRef()
   }
 
   startTimer = () => {
@@ -29,6 +31,7 @@ export default class Timer extends React.Component<null, TimerState> {
       if (diff <= 0) {
         clearInterval(interval)
         // Make sound
+        this.audioInput.current.play()
       }
     }, 1000)
   }
@@ -101,6 +104,7 @@ export default class Timer extends React.Component<null, TimerState> {
           <button onClick={this.incrementSec}> SecPlus </button>
           <button onClick={this.decrementSec} > SecMinus </button>
           <button onClick={this.startTimer}> Play </button>
+          <audio ref={this.audioInput} id="audio" src="http://www.soundjay.com/button/beep-07.wav" autoPlay={false} ></audio>
         </div>
       </div>
     )
