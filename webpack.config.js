@@ -36,7 +36,7 @@ module.exports = {
         ]
       },
       {
-        test: /\.(png|jpe?g|svg)$/,
+        test: /\.(png|jpe?g|svg|mp3)$/,
         loader: 'file-loader',
         options: {
             name: 'assets/[name].[ext]',

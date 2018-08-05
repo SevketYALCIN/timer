@@ -1,5 +1,6 @@
 import * as React from 'react'
 import './timer.scss'
+import * as Alert from '../../alert.mp3'
 
 export default class Timer extends React.Component<null, TimerState> {
   private audioInput: React.RefObject<HTMLAudioElement>;
@@ -104,7 +105,7 @@ export default class Timer extends React.Component<null, TimerState> {
           <button onClick={this.incrementSec}> SecPlus </button>
           <button onClick={this.decrementSec} > SecMinus </button>
           <button onClick={this.startTimer}> Play </button>
-          <audio ref={this.audioInput} id="audio" src="http://www.soundjay.com/button/beep-07.wav" autoPlay={false} ></audio>
+          <audio ref={this.audioInput} id="audio" src={Alert} autoPlay={false} ></audio>
         </div>
       </div>
     )
