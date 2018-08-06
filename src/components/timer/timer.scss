@@ -1,6 +1,10 @@
 .timer{
   .clock{
-    font-size: 80vh;
-    line-height: 60vh;
+    font-size: 60vh;
+    line-height: 70vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
