@@ -1,120 +1,161 @@
-import * as React from 'react'
-import './timer.scss'
-import * as Alert from '../../alert.mp3'
+import * as React from 'react';
+import './timer.scss';
+import * as Alert from './alert.mp3';
+import * as Arrow from './arrow.png';
 
 export default class Timer extends React.Component<null, TimerState> {
   private audioInput: React.RefObject<HTMLAudioElement>;
+  interval: any;
+
   constructor() {
-    super(null)
+    super(null);
     this.state = {
-      minute: 0,
-      second: 2,
-      min: "00",
-      sec: "02"
-    }
-    this.audioInput = React.createRef()
+      minute: 5,
+      second: 0,
+      running: false
+    };
+    this.audioInput = React.createRef();
   }
 
   startTimer = () => {
-    let diff = this.state.second + (this.state.minute * 60)
-    let interval = setInterval(() => {
-      diff--
+    if (this.state.minute < 1 && this.state.second < 1) {
+      return false;
+    }
 
-      // Format display
-      const min = Math.floor(diff / 60)
-      const sec = diff % 60
+    if (this.state.running) {
+      clearInterval(this.interval);
+      this.setState({ running: false });
+    } else {
+      let diff = this.state.second + this.state.minute * 60;
+      this.setState({ running: true });
+      this.interval = setInterval(() => {
+        diff--;
 
-      this.setState({
-        min: ("0" + min).slice(-2),
-        sec: ("0" + sec).slice(-2)
-      })
+        // Format display
+        const min = Math.floor(diff / 60);
+        const sec = diff % 60;
 
-      if (diff <= 0) {
-        clearInterval(interval)
-        // Make sound
-        this.audioInput.current.play()
-      }
-    }, 1000)
-  }
+        this.setState({
+          minute: min,
+          second: sec
+        });
+
+        if (diff <= 0) {
+          clearInterval(this.interval);
+          this.setState({ running: false });
+          // Make sound
+          this.audioInput.current.play();
+        }
+      }, 1000);
+    }
+  };
+
+  stopTimer = () => {
+    clearInterval(this.interval);
+    this.setState({
+      running: false,
+      minute: 5,
+      second: 0
+    });
+  };
 
   incrementMin = () => {
-    const newMinute = this.state.minute + 1
-    this.setState({
-      minute: newMinute,
-      min:("0" + newMinute).slice(-2),
-    })
-  }
+    if (!this.state.running) {
+      const newMinute = this.state.minute + 1;
+      this.setState({
+        minute: newMinute
+      });
+    }
+  };
 
   decrementMin = () => {
-    switch(this.state.minute){
-      case 1:
-        this.setState({
-          minute: 0,
-          min: "00",
-        })
-        break;
-      case 0:
-        break;
-      default:
-        const newMinute = this.state.minute - 1
-        this.setState({
-          minute: newMinute,
-          min: ("0" + newMinute).slice(-2)
-        })
+    if (!this.state.running) {
+      switch (this.state.minute) {
+        case 1:
+          this.setState({
+            minute: 0
+          });
+          break;
+        case 0:
+          break;
+        default:
+          const newMinute = this.state.minute - 1;
+          this.setState({
+            minute: newMinute
+          });
+      }
     }
-  }
+  };
 
   incrementSec = () => {
-    const newSecond = this.state.second + 1
-    this.setState({
-      second: newSecond,
-      sec:("0" + newSecond).slice(-2),
-    })
-  }
+    if (!this.state.running) {
+      const newSecond = this.state.second + 1;
+      this.setState({
+        second: newSecond
+      });
+    }
+  };
 
   decrementSec = () => {
-    switch(this.state.second){
-      case 1:
-        this.setState({
-          second: 0,
-          sec: "00",
-        })
-        break;
-      case 0:
-        break;
-      default:
-        const newSecond = this.state.second - 1
-        this.setState({
-          second: newSecond,
-          sec: ("0" + newSecond).slice(-2)
-        })
+    if (!this.state.running) {
+      switch (this.state.second) {
+        case 1:
+          this.setState({
+            second: 0
+          });
+          break;
+        case 0:
+          break;
+        default:
+          const newSecond = this.state.second - 1;
+          this.setState({
+            second: newSecond
+          });
+      }
     }
-  }
+  };
 
   render() {
-    return(
+    return (
       <div className="timer">
         <div className="clock">
-          <span>{this.state.min}</span>
+          <div className="minute">
+            <div className="arrows">
+              <img src={Arrow} onClick={this.incrementMin} className="rotate" />
+            </div>
+            <div>{('0' + this.state.minute).slice(-2)}</div>
+            <div className="arrows">
+              <img src={Arrow} onClick={this.decrementMin} />
+            </div>
+          </div>
           :
-          <span>{this.state.sec}</span>
+          <div className="second">
+            <div className="arrows">
+              <img src={Arrow} onClick={this.incrementSec} className="rotate" />
+            </div>
+            <span>{('0' + this.state.second).slice(-2)}</span>
+            <div className="arrows">
+              <img src={Arrow} onClick={this.decrementSec} />
+            </div>
+          </div>
         </div>
         <div className="buttons">
-          <button onClick={this.incrementMin}> MinPlus </button>
-          <button onClick={this.decrementMin} > MinMinus </button>
-          <button onClick={this.incrementSec}> SecPlus </button>
-          <button onClick={this.decrementSec} > SecMinus </button>
           <button onClick={this.startTimer}> Play </button>
-          <audio ref={this.audioInput} id="audio" src={Alert} autoPlay={false} ></audio>
+          <button onClick={this.stopTimer}> Stop </button>
+          <audio
+            ref={this.audioInput}
+            id="audio"
+            src={Alert}
+            autoPlay={false}
+          />
         </div>
       </div>
-    )
+    );
   }
 }
 
 interface TimerState {
-  minute: number
-  second: number
-  min: string
-  sec: string
+  minute: number;
+  second: number;
+  running: boolean;
 }

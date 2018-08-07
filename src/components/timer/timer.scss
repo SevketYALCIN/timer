@@ -5,6 +5,29 @@
     overflow: hidden;
     display: flex;
     justify-content: center;
-    align-items: center;
+    
+    .minute,.second{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .arrows{
+        display: flex;
+      
+        img{
+          width: 80px;
+          height: 80px;
+      
+          &:hover{
+            cursor: pointer;
+          }
+
+          &.rotate{
+            transform: rotate(180deg)
+          }
+        }
+      }
+    }
   }
 }
