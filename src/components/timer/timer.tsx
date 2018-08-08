@@ -1,7 +1,10 @@
 import * as React from 'react';
 import './timer.scss';
-import * as Alert from './alert.mp3';
-import * as Arrow from './arrow.png';
+import * as Alert from '../../assets/alert.mp3';
+import * as Arrow from '../../assets/arrow.svg';
+import * as Play from '../../assets/play.svg';
+import * as Stop from '../../assets/stop.svg';
+import * as Pause from '../../assets/pause.svg';
 
 export default class Timer extends React.Component<null, TimerState> {
   private audioInput: React.RefObject<HTMLAudioElement>;
@@ -89,10 +92,17 @@ export default class Timer extends React.Component<null, TimerState> {
 
   incrementSec = () => {
     if (!this.state.running) {
-      const newSecond = this.state.second + 1;
-      this.setState({
-        second: newSecond
-      });
+      if(this.state.second >= 59){
+        this.setState({
+          second: 0,
+          minute: this.state.minute + 1
+        });
+      } else {
+        const newSecond = this.state.second + 1;
+        this.setState({
+          second: newSecond
+        });
+      }
     }
   };
 
@@ -105,6 +115,12 @@ export default class Timer extends React.Component<null, TimerState> {
           });
           break;
         case 0:
+          if(this.state.minute > 0){
+            this.setState({
+              minute: this.state.minute - 1,
+              second: 59
+            })
+          }
           break;
         default:
           const newSecond = this.state.second - 1;
@@ -121,27 +137,27 @@ export default class Timer extends React.Component<null, TimerState> {
         <div className="clock">
           <div className="minute">
             <div className="arrows">
-              <img src={Arrow} onClick={this.incrementMin} className="rotate" />
+              <img src={Arrow} onClick={this.incrementMin} />
             </div>
-            <div>{('0' + this.state.minute).slice(-2)}</div>
+            <div className="numbers">{('0' + this.state.minute).slice(-2)}</div>
             <div className="arrows">
-              <img src={Arrow} onClick={this.decrementMin} />
+              <img src={Arrow} onClick={this.decrementMin} className="rotate" />
             </div>
           </div>
-          :
+          <div className="separator"><span>:</span></div>
           <div className="second">
             <div className="arrows">
-              <img src={Arrow} onClick={this.incrementSec} className="rotate" />
+              <img src={Arrow} onClick={this.incrementSec} />
             </div>
-            <span>{('0' + this.state.second).slice(-2)}</span>
+            <div className="numbers">{('0' + this.state.second).slice(-2)}</div>
             <div className="arrows">
-              <img src={Arrow} onClick={this.decrementSec} />
+              <img src={Arrow} onClick={this.decrementSec} className="rotate" />
             </div>
           </div>
         </div>
         <div className="buttons">
-          <button onClick={this.startTimer}> Play </button>
-          <button onClick={this.stopTimer}> Stop </button>
+          <img onClick={this.startTimer} src={this.state.running ? Pause : Play}/>
+          <img onClick={this.stopTimer} src={Stop}/>
           <audio
             ref={this.audioInput}
             id="audio"
