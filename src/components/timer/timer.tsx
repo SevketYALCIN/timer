@@ -1,23 +1,35 @@
-import * as React from 'react';
-import './timer.scss';
-import * as Alert from '../../assets/alert.mp3';
-import * as Arrow from '../../assets/arrow.svg';
-import * as Play from '../../assets/play.svg';
-import * as Stop from '../../assets/stop.svg';
-import * as Pause from '../../assets/pause.svg';
+import * as React from "react";
+import "./timer.scss";
+import * as Alert from "../../assets/alert.mp3";
+import * as Arrow from "../../assets/arrow.svg";
+import * as Play from "../../assets/play.svg";
+import * as Stop from "../../assets/stop.svg";
+import * as Pause from "../../assets/pause.svg";
+import * as Skip from "../../assets/skip.svg";
 
-export default class Timer extends React.Component<null, TimerState> {
+export default class Timer extends React.Component<TimerProps, TimerState> {
   private audioInput: React.RefObject<HTMLAudioElement>;
   interval: any;
 
-  constructor() {
-    super(null);
+  constructor(props: TimerProps) {
+    super(props);
     this.state = {
-      minute: 5,
-      second: 0,
+      minute: this.props.minute,
+      second: this.props.second,
       running: false
     };
     this.audioInput = React.createRef();
+  }
+
+  static getDerivedStateFromProps(
+    nextProps: TimerProps,
+    prevState: TimerState
+  ): TimerState {
+    return {
+      minute: nextProps.minute,
+      second: nextProps.second,
+      running: false
+    };
   }
 
   startTimer = () => {
@@ -92,7 +104,7 @@ export default class Timer extends React.Component<null, TimerState> {
 
   incrementSec = () => {
     if (!this.state.running) {
-      if(this.state.second >= 59){
+      if (this.state.second >= 59) {
         this.setState({
           second: 0,
           minute: this.state.minute + 1
@@ -115,11 +127,11 @@ export default class Timer extends React.Component<null, TimerState> {
           });
           break;
         case 0:
-          if(this.state.minute > 0){
+          if (this.state.minute > 0) {
             this.setState({
               minute: this.state.minute - 1,
               second: 59
-            })
+            });
           }
           break;
         default:
@@ -139,25 +151,33 @@ export default class Timer extends React.Component<null, TimerState> {
             <div className="arrows">
               <img src={Arrow} onClick={this.incrementMin} />
             </div>
-            <div className="numbers">{('0' + this.state.minute).slice(-2)}</div>
+            <div className="numbers">{("0" + this.state.minute).slice(-2)}</div>
             <div className="arrows">
               <img src={Arrow} onClick={this.decrementMin} className="rotate" />
             </div>
           </div>
-          <div className="separator"><span>:</span></div>
+          <div className="separator">
+            <span>:</span>
+          </div>
           <div className="second">
             <div className="arrows">
               <img src={Arrow} onClick={this.incrementSec} />
             </div>
-            <div className="numbers">{('0' + this.state.second).slice(-2)}</div>
+            <div className="numbers">{("0" + this.state.second).slice(-2)}</div>
             <div className="arrows">
               <img src={Arrow} onClick={this.decrementSec} className="rotate" />
             </div>
           </div>
         </div>
         <div className="buttons">
-          <img onClick={this.startTimer} src={this.state.running ? Pause : Play}/>
-          <img onClick={this.stopTimer} src={Stop}/>
+          <img
+            onClick={this.startTimer}
+            src={this.state.running ? Pause : Play}
+          />
+          <img onClick={this.stopTimer} src={Stop} />
+          {this.props.showNext && (
+            <img onClick={this.props.onNext} src={Skip} />
+          )}
           <audio
             ref={this.audioInput}
             id="audio"
@@ -174,4 +194,11 @@ interface TimerState {
   minute: number;
   second: number;
   running: boolean;
+}
+
+interface TimerProps {
+  minute: number;
+  second: number;
+  onNext: () => void;
+  showNext: boolean;
 }
