@@ -2,4 +2,22 @@
   margin: auto;
   text-align: center;
   font-family: Arial, Helvetica, sans-serif;
+
+  #blurBackground{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #00000070;
+    z-index: 1;
+  }
+
+  #menuImg{
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 50px;
+    cursor: pointer;
+  }
 }

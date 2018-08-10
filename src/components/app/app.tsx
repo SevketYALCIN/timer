@@ -1,23 +1,47 @@
 import * as React from "react";
 import Timer from "../timer/timer";
+import Pane from "../pane/pane";
 import "./app.scss";
+import * as Menu from "../../assets/menu.svg";
 
 class App extends React.Component<null, AppState> {
   constructor() {
     super(null)
     this.state = {
-      schedule: null
+      schedule: null,
+      showPane: false
     }
+  }
+
+  updateSchedule = (newSchedule: ScheduleItem[]) => {
+    this.setState({
+      schedule: newSchedule
+    })
+  }
+
+  showMenu = () => {
+    this.setState({
+      showPane: true
+    })
+  }
+
+  hideMenu = () => {
+    this.setState({
+      showPane: false
+    })
   }
 
   render() {
     return (
       <div className="app">
+        { this.state.showPane && <div id="blurBackground" onClick={this.hideMenu} /> }
+        <img id="menuImg" src={Menu} onClick={this.showMenu} />
         <Timer
           minute={5}
           second={0}
           schedule={this.state.schedule}
         />
+        <Pane active={this.state.showPane} onChange={this.updateSchedule} schedule={this.state.schedule}/>
       </div>
     );
   }
@@ -25,6 +49,7 @@ class App extends React.Component<null, AppState> {
 
 interface AppState {
   schedule?: ScheduleItem[];
+  showPane: boolean;
 }
 
 export interface ScheduleItem {

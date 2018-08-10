@@ -9,7 +9,7 @@ import * as Skip from "../../assets/skip.svg";
 import { ScheduleItem } from "../app/app";
 
 export default class Timer extends React.Component<TimerProps, TimerState> {
-  private audioInput: React.RefObject<HTMLAudioElement>;
+  audioInput: React.RefObject<HTMLAudioElement>;
   interval: any;
 
   constructor(props: TimerProps) {
