@@ -7,22 +7,9 @@ class App extends React.Component<AppProps, AppState> {
     super(props);
     this.state = {
       minute: 5,
-			second: 0,
-			schedule: [{minute: 5, second: 0}, {minute:2, second:0}]
+      second: 0
     };
   }
-
-  onNext = () => {
-    if (this.state.schedule && this.state.schedule.length > 0) {
-			var array = [...this.state.schedule]; 
-			const newTime = array.pop()
-			this.setState({
-				minute: newTime.minute,
-				second: newTime.second,
-				schedule: array
-			})
-    }
-  };
 
   render() {
     return (
@@ -30,12 +17,7 @@ class App extends React.Component<AppProps, AppState> {
         <Timer
           minute={this.state.minute}
           second={this.state.second}
-          onNext={this.onNext}
-          showNext={
-            this.state.schedule && this.state.schedule.length > 0
-              ? true
-              : false
-          }
+          schedule={this.state.schedule}
         />
       </div>
     );
@@ -52,7 +34,7 @@ interface AppState {
   schedule?: ScheduleItem[];
 }
 
-interface ScheduleItem {
+export interface ScheduleItem {
   minute: number;
   second: number;
 }

@@ -6,6 +6,7 @@ import * as Play from "../../assets/play.svg";
 import * as Stop from "../../assets/stop.svg";
 import * as Pause from "../../assets/pause.svg";
 import * as Skip from "../../assets/skip.svg";
+import { ScheduleItem } from "../app/app";
 
 export default class Timer extends React.Component<TimerProps, TimerState> {
   private audioInput: React.RefObject<HTMLAudioElement>;
@@ -13,23 +14,17 @@ export default class Timer extends React.Component<TimerProps, TimerState> {
 
   constructor(props: TimerProps) {
     super(props);
-    this.state = {
-      minute: this.props.minute,
-      second: this.props.second,
-      running: false
-    };
-    this.audioInput = React.createRef();
-  }
+    if (props.schedule && props.schedule.length > 0){
 
-  static getDerivedStateFromProps(
-    nextProps: TimerProps,
-    prevState: TimerState
-  ): TimerState {
-    return {
-      minute: nextProps.minute,
-      second: nextProps.second,
-      running: false
-    };
+    }
+    else{
+      this.state = {
+        minute: this.props.minute,
+        second: this.props.second,
+        running: false
+      };
+    }
+    this.audioInput = React.createRef();
   }
 
   startTimer = () => {
@@ -143,6 +138,32 @@ export default class Timer extends React.Component<TimerProps, TimerState> {
     }
   };
 
+  onNext = () => {
+    if (this.state.schedule && this.state.schedule.length > 0) {
+      clearInterval(this.interval);
+			var array = [...this.state.schedule]; 
+			const newTime = array.pop()
+			this.setState({
+				minute: newTime.minute,
+				second: newTime.second,
+				schedule: array
+			})
+    }
+  };
+
+  componentDidUpdate(prevProps: TimerProps) {
+    if(prevProps.schedule != this.props.schedule){
+      clearInterval(this.interval);
+			var array = [...this.props.schedule]; 
+			const newTime = array.pop()
+			this.setState({
+				minute: newTime.minute,
+				second: newTime.second,
+				schedule: array
+			})
+    }
+  }
+
   render() {
     return (
       <div className="timer">
@@ -174,9 +195,9 @@ export default class Timer extends React.Component<TimerProps, TimerState> {
             onClick={this.startTimer}
             src={this.state.running ? Pause : Play}
           />
-          <img onClick={this.stopTimer} src={Stop} />
-          {this.props.showNext && (
-            <img onClick={this.props.onNext} src={Skip} />
+          {!this.state.schedule && <img onClick={this.stopTimer} src={Stop} />}
+          {(this.state.schedule && this.state.schedule.length > 0) && (
+            <img onClick={this.onNext} src={Skip} />
           )}
           <audio
             ref={this.audioInput}
@@ -194,11 +215,11 @@ interface TimerState {
   minute: number;
   second: number;
   running: boolean;
+  schedule?: ScheduleItem[];
 }
 
 interface TimerProps {
   minute: number;
   second: number;
-  onNext: () => void;
-  showNext: boolean;
+  schedule?: ScheduleItem[];
 }
