@@ -140,7 +140,6 @@ export default class Timer extends React.Component<TimerProps, TimerState> {
 
   onNext = () => {
     if (this.state.schedule && this.state.schedule.length > 0) {
-      clearInterval(this.interval);
 			var array = [...this.state.schedule]; 
 			const newTime = array.pop()
 			this.setState({
@@ -153,7 +152,6 @@ export default class Timer extends React.Component<TimerProps, TimerState> {
 
   componentDidUpdate(prevProps: TimerProps) {
     if(prevProps.schedule != this.props.schedule){
-      clearInterval(this.interval);
 			var array = [...this.props.schedule]; 
 			const newTime = array.pop()
 			this.setState({
@@ -162,6 +160,10 @@ export default class Timer extends React.Component<TimerProps, TimerState> {
 				schedule: array
 			})
     }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   render() {
