@@ -2,21 +2,20 @@ import * as React from "react";
 import Timer from "../timer/timer";
 import "./app.scss";
 
-class App extends React.Component<AppProps, AppState> {
-  constructor(props: AppProps) {
-    super(props);
+class App extends React.Component<null, AppState> {
+  constructor() {
+    super(null)
     this.state = {
-      minute: 5,
-      second: 0
-    };
+      schedule: null
+    }
   }
 
   render() {
     return (
       <div className="app">
         <Timer
-          minute={this.state.minute}
-          second={this.state.second}
+          minute={5}
+          second={0}
           schedule={this.state.schedule}
         />
       </div>
@@ -24,13 +23,7 @@ class App extends React.Component<AppProps, AppState> {
   }
 }
 
-interface AppProps {
-  title: string;
-}
-
 interface AppState {
-  minute: number;
-  second: number;
   schedule?: ScheduleItem[];
 }
 

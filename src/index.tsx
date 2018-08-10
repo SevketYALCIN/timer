@@ -4,6 +4,6 @@ import * as ReactDOM from "react-dom";
 import App from "./components/app/app";
 
 ReactDOM.render(
-    <App title="Hello TypeScript"/>,
+    <App />,
     document.getElementById("root")
 );

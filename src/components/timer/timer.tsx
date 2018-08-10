@@ -64,8 +64,8 @@ export default class Timer extends React.Component<TimerProps, TimerState> {
     clearInterval(this.interval);
     this.setState({
       running: false,
-      minute: 5,
-      second: 0
+      minute: this.props.minute,
+      second: this.props.second
     });
   };
 
