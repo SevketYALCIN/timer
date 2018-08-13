@@ -11,10 +11,24 @@ export default class Pane extends React.Component<PaneProps, PaneState> {
     }
   }
 
+  onSave = () => {
+    this.props.onChange([{
+      minute: 0,
+      second: 30
+    },{
+      minute: 3,
+      second: 30
+    },{
+      minute: 5,
+      second: 30
+    }])
+  }
+
   render() {
     return (
       <div className={this.props.active ? "pane active" : "pane"}>
         <img id="close" src={Cross} onClick={this.props.close} />
+        <button onClick={this.onSave}>Save</button>
       </div>
     );
   }

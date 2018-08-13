@@ -15,7 +15,8 @@ class App extends React.Component<null, AppState> {
 
   updateSchedule = (newSchedule: ScheduleItem[]) => {
     this.setState({
-      schedule: newSchedule
+      schedule: newSchedule,
+      showPane: false
     });
   };
 

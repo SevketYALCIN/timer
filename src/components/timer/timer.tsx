@@ -15,7 +15,13 @@ export default class Timer extends React.Component<TimerProps, TimerState> {
   constructor(props: TimerProps) {
     super(props);
     if (props.schedule && props.schedule.length > 0){
-
+      var array = [...this.props.schedule]; 
+			const newTime = array.pop()
+			this.setState({
+				minute: newTime.minute,
+				second: newTime.second,
+				schedule: array
+			})
     }
     else{
       this.state = {
