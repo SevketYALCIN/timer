@@ -9,7 +9,8 @@ class App extends React.Component<null, AppState> {
     super(null);
     this.state = {
       schedule: null,
-      showPane: false
+      showPane: false,
+      playSound: true
     };
   }
 
@@ -32,6 +33,12 @@ class App extends React.Component<null, AppState> {
     });
   };
 
+  toggleSoundCheck = (bool:boolean) => {
+    this.setState({
+      playSound: bool
+    })
+  }
+
   render() {
     return (
       <div className="app">
@@ -45,6 +52,7 @@ class App extends React.Component<null, AppState> {
           active={this.state.showPane}
           onChange={this.updateSchedule}
           schedule={this.state.schedule}
+          toggleSound={this.toggleSoundCheck}
         />
       </div>
     );
@@ -54,6 +62,7 @@ class App extends React.Component<null, AppState> {
 interface AppState {
   schedule?: ScheduleItem[];
   showPane: boolean;
+  playSound: boolean;
 }
 
 export interface ScheduleItem {

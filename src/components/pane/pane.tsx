@@ -9,7 +9,8 @@ export default class Pane extends React.Component<PaneProps, PaneState> {
     super(props)
     this.state = {
       schedule: this.props.schedule,
-      nodes: []
+      nodes: [],
+      playSound: true
     }
     this.inputs = [];
   }
@@ -38,11 +39,20 @@ export default class Pane extends React.Component<PaneProps, PaneState> {
     this.inputs = [...this.inputs, node]
   }
 
+  toggleSound = (input: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({
+      playSound: input.currentTarget.checked
+    })
+    this.props.toggleSound(input.currentTarget.checked)
+  }
+
   render() {
     let ref = this;
     return (
       <div className={this.props.active ? "pane active" : "pane"}>
         <img id="close" src={Cross} onClick={this.props.close} />
+        <h2>Play Sound</h2>
+        <input type="checkbox" checked={this.state.playSound} onChange={this.toggleSound} />
         <h2>Schedule</h2>
         {this.state.nodes.map((item) => {
           return <input type="text" ref={ref.addRef} />
@@ -59,9 +69,11 @@ interface PaneProps {
   onChange: (newSchedule:ScheduleItem[]) => void;
   active: boolean;
   close: () => void;
+  toggleSound: (bool:boolean) => void;
 }
 
 interface PaneState {
   schedule?: ScheduleItem[];
   nodes: any[]
+  playSound: boolean
 }
