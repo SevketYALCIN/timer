@@ -3,8 +3,11 @@ import Timer from '../timer/timer';
 import Pane from '../pane/pane';
 import './app.scss';
 import * as Menu from '../../assets/menu.svg';
+import * as Alert from '../../assets/alert.mp3';
 
 class App extends React.Component<null, AppState> {
+  audioInput: React.RefObject<HTMLAudioElement>;
+
   constructor() {
     super(null);
     this.state = {
@@ -12,6 +15,7 @@ class App extends React.Component<null, AppState> {
       showPane: false,
       playSound: true
     };
+    this.audioInput = React.createRef();
   }
 
   updateSchedule = (newSchedule: ScheduleItem[]) => {
@@ -33,11 +37,17 @@ class App extends React.Component<null, AppState> {
     });
   };
 
-  toggleSoundCheck = (bool:boolean) => {
+  toggleSoundCheck = (bool: boolean) => {
     this.setState({
       playSound: bool
-    })
-  }
+    });
+  };
+
+  playSound = () => {
+    if (this.state.playSound) {
+      this.audioInput.current.play();
+    }
+  };
 
   render() {
     return (
@@ -46,7 +56,12 @@ class App extends React.Component<null, AppState> {
           <div id="blurBackground" onClick={this.hideMenu} />
         )}
         <img id="menuImg" src={Menu} onClick={this.showMenu} />
-        <Timer minute={5} second={0} schedule={this.state.schedule} />
+        <Timer
+          minute={5}
+          second={0}
+          schedule={this.state.schedule}
+          onTimeUp={this.playSound}
+        />
         <Pane
           close={() => this.setState({ showPane: false })}
           active={this.state.showPane}
@@ -54,6 +69,7 @@ class App extends React.Component<null, AppState> {
           schedule={this.state.schedule}
           toggleSound={this.toggleSoundCheck}
         />
+        <audio ref={this.audioInput} id="audio" src={Alert} autoPlay={false} />
       </div>
     );
   }

@@ -1,6 +1,5 @@
 import * as React from "react";
 import "./timer.scss";
-import * as Alert from "../../assets/alert.mp3";
 import * as Arrow from "../../assets/arrow.svg";
 import * as Play from "../../assets/play.svg";
 import * as Stop from "../../assets/stop.svg";
@@ -9,7 +8,6 @@ import * as Skip from "../../assets/skip.svg";
 import { ScheduleItem } from "../app/app";
 
 export default class Timer extends React.Component<TimerProps, TimerState> {
-  audioInput: React.RefObject<HTMLAudioElement>;
   interval: any;
 
   constructor(props: TimerProps) {
@@ -29,7 +27,6 @@ export default class Timer extends React.Component<TimerProps, TimerState> {
         running: false
       };
     }
-    this.audioInput = React.createRef();
   }
 
   startTimer = () => {
@@ -58,8 +55,7 @@ export default class Timer extends React.Component<TimerProps, TimerState> {
         if (diff <= 0) {
           clearInterval(this.interval);
           this.setState({ running: false });
-          // Make sound
-          this.audioInput.current.play();
+          this.props.onTimeUp();          
         }
       }, 1000);
     }
@@ -227,12 +223,6 @@ export default class Timer extends React.Component<TimerProps, TimerState> {
             this.state.schedule.length > 0 && (
               <img onClick={this.onNext} src={Skip} />
             )}
-          <audio
-            ref={this.audioInput}
-            id="audio"
-            src={Alert}
-            autoPlay={false}
-          />
         </div>
       </div>
     );
@@ -250,4 +240,5 @@ interface TimerProps {
   minute: number;
   second: number;
   schedule?: ScheduleItem[];
+  onTimeUp: () => void;
 }
