@@ -14,7 +14,7 @@ export default class Timer extends React.Component<TimerProps, TimerState> {
     super(props);
     if (props.schedule && props.schedule.length > 0) {
       var array = [...this.props.schedule];
-      const newTime = array.pop();
+      const newTime = array.shift();
       this.setState({
         minute: newTime.minute,
         second: newTime.second,
@@ -143,7 +143,7 @@ export default class Timer extends React.Component<TimerProps, TimerState> {
     if (this.state.schedule && this.state.schedule.length > 0) {
       clearInterval(this.interval);
       var array = [...this.state.schedule];
-      const newTime = array.pop();
+      const newTime = array.shift();
       this.setState({
         minute: newTime.minute,
         second: newTime.second,
@@ -157,7 +157,7 @@ export default class Timer extends React.Component<TimerProps, TimerState> {
     if (prevProps.schedule != this.props.schedule) {
       clearInterval(this.interval);
       var array = [...this.props.schedule];
-      const newTime = array.pop();
+      const newTime = array.shift();
       this.setState({
         minute: newTime.minute,
         second: newTime.second,
