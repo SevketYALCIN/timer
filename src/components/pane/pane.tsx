@@ -33,10 +33,11 @@ export default class Pane extends React.Component<PaneProps, PaneState> {
           type="text"
           value={el || ""}
           onChange={event => this.handleChange(i, event)}
+          placeholder='12:45'
         />
         <input
           type="button"
-          value="remove"
+          value="x"
           onClick={() => this.removeClick(i)}
         />
       </div>
@@ -80,10 +81,9 @@ export default class Pane extends React.Component<PaneProps, PaneState> {
           onChange={this.toggleSound}
         />
         <h2>Schedule</h2>
+        <button onClick={this.addClick}>Add a timeslot</button>
         {this.createInputs()}
-        <br />
-        <button onClick={this.addClick}>+</button>
-        <button onClick={this.onSave}>Save</button>
+        <button onClick={this.onSave}>Save and Apply</button>
       </div>
     );
   }
