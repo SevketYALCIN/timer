@@ -15,15 +15,18 @@ export default class Pane extends React.Component<PaneProps, PaneState> {
 
   onSave = () => {
     // TODO: check if values are correctly formatted
-    const schedule: ScheduleItem[] = this.state.inputValues.map(item => {
-      const splits = item.split(":");
-      const el: ScheduleItem = {
-        minute: parseInt(splits[0]),
-        second: parseInt(splits[1])
-      };
-      return el;
-    });
-    this.props.onChange(schedule);
+    if(this.state.inputValues.length > 0 && this.state.inputValues.every(item => item !== ""))
+    {
+      const schedule: ScheduleItem[] = this.state.inputValues.map(item => {
+        const splits = item.split(":");
+        const el: ScheduleItem = {
+          minute: parseInt(splits[0]),
+          second: parseInt(splits[1])
+        };
+        return el;
+      });
+      this.props.onChange(schedule);
+    }    
   };
 
   createInputs() {
