@@ -73,9 +73,10 @@ export default class Pane extends React.Component<PaneProps, PaneState> {
 
   toggleSound = (input: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
-      playSound: input.currentTarget.checked
+      playSound: !this.state.playSound
+    }, () => {
+      this.props.toggleSound(this.state.playSound);
     });
-    this.props.toggleSound(input.currentTarget.checked);
   };
 
   render() {
