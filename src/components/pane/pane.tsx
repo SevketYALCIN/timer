@@ -1,7 +1,8 @@
-import * as React from "react";
-import "./pane.scss";
-import { ScheduleItem } from "../app/app";
-import * as Cross from "../../assets/cross.svg";
+import * as React from 'react';
+import './pane.scss';
+import { ScheduleItem } from '../app/app';
+import * as Cross from '../../assets/cross.svg';
+import { Checkbox, Button, Input } from 'semantic-ui-react';
 
 export default class Pane extends React.Component<PaneProps, PaneState> {
   constructor(props: PaneProps) {
@@ -14,11 +15,17 @@ export default class Pane extends React.Component<PaneProps, PaneState> {
   }
 
   onSave = () => {
-    // TODO: check if values are correctly formatted
-    if(this.state.inputValues.length > 0 && this.state.inputValues.every(item => item !== ""))
-    {
+    if (this.state.inputValues.every(item => item !== '')) {
+      if (
+        this.state.inputValues.filter(
+          item => item.length < 1 || !item.match(/\d+:\d+/)
+        ).length > 0
+      ) {
+        alert('Invalid timeslot format, should be "5:30"');
+        return false;
+      }
       const schedule: ScheduleItem[] = this.state.inputValues.map(item => {
-        const splits = item.split(":");
+        const splits = item.split(':');
         const el: ScheduleItem = {
           minute: parseInt(splits[0]),
           second: parseInt(splits[1])
@@ -26,22 +33,21 @@ export default class Pane extends React.Component<PaneProps, PaneState> {
         return el;
       });
       this.props.onChange(schedule);
-    }    
+    } else {
+      alert('Please fill all the timeslots');
+      return false;
+    }
   };
 
   createInputs() {
     return this.state.inputValues.map((el, i) => (
-      <div key={i}>
-        <input
-          type="text"
-          value={el || ""}
+      <div className="timeslot-container" key={i}>
+        <Input
+          action={{ icon: 'delete', onClick: () => this.removeClick(i) }}
+          value={el || ''}
           onChange={event => this.handleChange(i, event)}
-          placeholder='12:45'
-        />
-        <input
-          type="button"
-          value="x"
-          onClick={() => this.removeClick(i)}
+          placeholder="12:45"
+          size="tiny"
         />
       </div>
     ));
@@ -55,7 +61,7 @@ export default class Pane extends React.Component<PaneProps, PaneState> {
 
   addClick = () => {
     this.setState(prevState => ({
-      inputValues: [...prevState.inputValues, ""]
+      inputValues: [...prevState.inputValues, '']
     }));
   };
 
@@ -75,18 +81,28 @@ export default class Pane extends React.Component<PaneProps, PaneState> {
   render() {
     let ref = this;
     return (
-      <div className={this.props.active ? "pane active" : "pane"}>
+      <div className={this.props.active ? 'pane active' : 'pane'}>
         <img id="close" src={Cross} onClick={this.props.close} />
         <h2>Play Sound</h2>
-        <input
-          type="checkbox"
+        <Checkbox
+          toggle
           checked={this.state.playSound}
           onChange={this.toggleSound}
         />
         <h2>Schedule</h2>
-        <button onClick={this.addClick}>Add a timeslot</button>
-        {this.createInputs()}
-        <button onClick={this.onSave}>Save and Apply</button>
+        <div className="schedule-container">
+          <Button secondary onClick={this.addClick}>
+            Add a timeslot
+          </Button>
+          <div className="timeslots">{this.createInputs()}</div>
+          <Button
+            primary
+            onClick={this.onSave}
+            disabled={this.state.inputValues.length < 1}
+          >
+            Save and Apply
+          </Button>
+        </div>
       </div>
     );
   }
