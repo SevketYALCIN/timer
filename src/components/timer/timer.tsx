@@ -1,11 +1,12 @@
-import * as React from "react";
-import "./timer.scss";
-import * as Arrow from "../../assets/arrow.svg";
-import * as Play from "../../assets/play.svg";
-import * as Stop from "../../assets/stop.svg";
-import * as Pause from "../../assets/pause.svg";
-import * as Skip from "../../assets/skip.svg";
-import { ScheduleItem } from "../app/app";
+import * as React from 'react';
+import './timer.scss';
+import * as Arrow from '../../assets/arrow.svg';
+import * as Play from '../../assets/play.svg';
+import * as Stop from '../../assets/stop.svg';
+import * as Pause from '../../assets/pause.svg';
+import * as Skip from '../../assets/skip.svg';
+import * as Replay from '../../assets/replay.svg';
+import { ScheduleItem } from '../app/app';
 
 export default class Timer extends React.Component<TimerProps, TimerState> {
   interval: any;
@@ -55,7 +56,7 @@ export default class Timer extends React.Component<TimerProps, TimerState> {
         if (diff <= 0) {
           clearInterval(this.interval);
           this.setState({ running: false });
-          this.props.onTimeUp();          
+          this.props.onTimeUp();
         }
       }, 1000);
     }
@@ -171,6 +172,10 @@ export default class Timer extends React.Component<TimerProps, TimerState> {
     clearInterval(this.interval);
   }
 
+  resetScheduleMode = () => {
+    this.setState({schedule: null}, () => this.stopTimer())
+  }
+
   render() {
     return (
       <div className="timer">
@@ -181,7 +186,7 @@ export default class Timer extends React.Component<TimerProps, TimerState> {
                 <img src={Arrow} onClick={this.incrementMin} />
               </div>
             )}
-            <div className="numbers">{("0" + this.state.minute).slice(-2)}</div>
+            <div className="numbers">{('0' + this.state.minute).slice(-2)}</div>
             {!this.state.running && (
               <div className="arrows">
                 <img
@@ -201,7 +206,7 @@ export default class Timer extends React.Component<TimerProps, TimerState> {
                 <img src={Arrow} onClick={this.incrementSec} />
               </div>
             )}
-            <div className="numbers">{("0" + this.state.second).slice(-2)}</div>
+            <div className="numbers">{('0' + this.state.second).slice(-2)}</div>
             {!this.state.running && (
               <div className="arrows">
                 <img
@@ -219,10 +224,13 @@ export default class Timer extends React.Component<TimerProps, TimerState> {
             src={this.state.running ? Pause : Play}
           />
           {!this.state.schedule && <img onClick={this.stopTimer} src={Stop} />}
-          {this.state.schedule &&
+          {this.state.schedule && 
             this.state.schedule.length > 0 && (
               <img onClick={this.onNext} src={Skip} />
             )}
+          {this.state.schedule && (
+            <img src={Replay} onClick={this.resetScheduleMode} />
+          )}
         </div>
       </div>
     );
