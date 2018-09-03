@@ -5,6 +5,8 @@ import * as Cross from '../../assets/cross.svg';
 import { Checkbox, Button, Input } from 'semantic-ui-react';
 
 export default class Pane extends React.Component<PaneProps, PaneState> {
+  matchRegex: RegExp = /\d{1,2}:\d{2}/
+
   constructor(props: PaneProps) {
     super(props);
     this.state = {
@@ -18,10 +20,10 @@ export default class Pane extends React.Component<PaneProps, PaneState> {
     if (this.state.inputValues.every(item => item !== '')) {
       if (
         this.state.inputValues.filter(
-          item => item.length < 1 || !item.match(/\d+:\d+/)
+          item => item.length < 1 || !item.match(this.matchRegex)
         ).length > 0
       ) {
-        alert('Invalid timeslot format, should be "5:30"');
+        
         return false;
       }
       const schedule: ScheduleItem[] = this.state.inputValues.map(item => {
@@ -48,6 +50,7 @@ export default class Pane extends React.Component<PaneProps, PaneState> {
           onChange={event => this.handleChange(i, event)}
           placeholder="12:45"
           size="tiny"
+          error={this.state.inputValues[i] != '' && !this.state.inputValues[i].match(this.matchRegex)}
         />
       </div>
     ));
@@ -99,7 +102,9 @@ export default class Pane extends React.Component<PaneProps, PaneState> {
           <Button
             primary
             onClick={this.onSave}
-            disabled={this.state.inputValues.length < 1}
+            disabled={this.state.inputValues.length < 1 || this.state.inputValues.filter(
+              item => item.length < 1 || !item.match(this.matchRegex)
+            ).length > 0}
           >
             Save and Apply
           </Button>
