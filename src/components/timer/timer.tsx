@@ -181,13 +181,13 @@ export default class Timer extends React.Component<TimerProps, TimerState> {
       <div className="timer">
         <div className="clock">
           <div className="minute">
-            {!this.state.running && (
+            {(!this.state.running && !this.state.schedule) && (
               <div className="arrows">
                 <img src={Arrow} onClick={this.incrementMin} />
               </div>
             )}
             <div className="numbers">{('0' + this.state.minute).slice(-2)}</div>
-            {!this.state.running && (
+            {(!this.state.running && !this.state.schedule) && (
               <div className="arrows">
                 <img
                   src={Arrow}
@@ -201,13 +201,13 @@ export default class Timer extends React.Component<TimerProps, TimerState> {
             <span>:</span>
           </div>
           <div className="second">
-            {!this.state.running && (
+            {(!this.state.running && !this.state.schedule) && (
               <div className="arrows">
                 <img src={Arrow} onClick={this.incrementSec} />
               </div>
             )}
             <div className="numbers">{('0' + this.state.second).slice(-2)}</div>
-            {!this.state.running && (
+            {(!this.state.running && !this.state.schedule) && (
               <div className="arrows">
                 <img
                   src={Arrow}
