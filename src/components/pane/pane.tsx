@@ -45,7 +45,7 @@ export default class Pane extends React.Component<PaneProps, PaneState> {
     return this.state.inputValues.map((el, i) => (
       <div className="timeslot-container" key={i}>
         <Input
-          action={{ icon: 'delete', onClick: () => this.removeClick(i) }}
+          action={{ icon: 'delete', color: 'red', onClick: () => this.removeClick(i) }}
           value={el || ''}
           onChange={event => this.handleChange(i, event)}
           placeholder="12:45"
