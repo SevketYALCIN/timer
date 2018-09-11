@@ -1,47 +1,57 @@
-.timer{
-  .clock{
-    height: calc(100vh - 100px);
+.timer {
+  .clock {
+    height: 100vh;
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    
-    .minute,.second{
+
+    .minute,
+    .second {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
 
-      .arrows{
+      .arrows {
         display: flex;
-      
-        img{
+        z-index: 500;
+
+        img {
           width: 80px;
           height: 80px;
-      
-          &:hover{
+
+          &:hover {
             cursor: pointer;
           }
 
-          &.rotate{
-            transform: rotate(180deg)
+          &.rotate {
+            transform: rotate(180deg);
           }
         }
       }
     }
 
-    .numbers, .separator{
+    .numbers,
+    .separator {
       font-size: calc(100vh - 260px);
       line-height: calc(100vh - 260px);
       overflow: hidden;
     }
   }
 
-  .buttons{
-    img{
-      width: 80px;
-      height: 80px;
-      margin: 0 15px;
+  .buttons-container {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+
+    button {
+      background-color: #00000021;
+      
+      i {
+        margin-right: -10px !important;
+        margin-left: -10px !important;
+      }
     }
   }
 }

@@ -1,12 +1,13 @@
-import * as React from "react";
-import "./timer.scss";
-import * as Arrow from "../../assets/arrow.svg";
-import * as Play from "../../assets/play.svg";
-import * as Stop from "../../assets/stop.svg";
-import * as Pause from "../../assets/pause.svg";
-import * as Skip from "../../assets/skip.svg";
-import * as Replay from "../../assets/replay.svg";
-import { ScheduleItem } from "../app/app";
+import * as React from 'react';
+import './timer.scss';
+import * as Arrow from '../../assets/arrow.svg';
+import * as Play from '../../assets/play.svg';
+import * as Stop from '../../assets/stop.svg';
+import * as Pause from '../../assets/pause.svg';
+import * as Skip from '../../assets/skip.svg';
+import * as Replay from '../../assets/replay.svg';
+import { ScheduleItem } from '../app/app';
+import { Button, Icon } from 'semantic-ui-react';
 
 export default class Timer extends React.Component<TimerProps, TimerState> {
   interval: any;
@@ -184,17 +185,23 @@ export default class Timer extends React.Component<TimerProps, TimerState> {
             {!this.state.running &&
               !this.state.schedule && (
                 <div className="arrows">
-                  <img src={Arrow} onClick={this.incrementMin} />
+                  <Icon
+                    className="pointer"
+                    size="massive"
+                    name="angle up"
+                    onClick={this.incrementMin}
+                  />
                 </div>
               )}
-            <div className="numbers">{("0" + this.state.minute).slice(-2)}</div>
+            <div className="numbers">{('0' + this.state.minute).slice(-2)}</div>
             {!this.state.running &&
               !this.state.schedule && (
                 <div className="arrows">
-                  <img
-                    src={Arrow}
+                  <Icon
+                    className="pointer"
+                    size="massive"
+                    name="angle down"
                     onClick={this.decrementMin}
-                    className="rotate"
                   />
                 </div>
               )}
@@ -206,42 +213,57 @@ export default class Timer extends React.Component<TimerProps, TimerState> {
             {!this.state.running &&
               !this.state.schedule && (
                 <div className="arrows">
-                  <img src={Arrow} onClick={this.incrementSec} />
+                  <Icon
+                    className="pointer"
+                    size="massive"
+                    name="angle up"
+                    onClick={this.incrementSec}
+                  />
                 </div>
               )}
-            <div className="numbers">{("0" + this.state.second).slice(-2)}</div>
+            <div className="numbers">{('0' + this.state.second).slice(-2)}</div>
             {!this.state.running &&
               !this.state.schedule && (
                 <div className="arrows">
-                  <img
-                    src={Arrow}
+                  <Icon
+                    className="pointer"
+                    size="massive"
+                    name="angle down"
                     onClick={this.decrementSec}
-                    className="rotate"
                   />
                 </div>
               )}
           </div>
         </div>
-        <div className="buttons">
-          <img
-            onClick={this.startTimer}
-            src={this.state.running ? Pause : Play}
-            className="pointer"
-          />
-          {!this.state.schedule && (
-            <img onClick={this.stopTimer} src={Stop} className="pointer" />
-          )}
-          {this.state.schedule &&
-            this.state.schedule.length > 0 && (
-              <img onClick={this.onNext} src={Skip} className="pointer" />
+        <div className="buttons-container">
+            <Button
+              size="massive"
+              onClick={this.startTimer}
+            >
+              <Icon name={this.state.running ? 'pause' : 'play'} color="black" />
+            </Button>
+            {!this.state.schedule && (
+              <Button size="massive" onClick={this.stopTimer}>
+                <Icon name="stop" color="black" />
+              </Button>
             )}
-          {this.state.schedule && (
-            <img
-              src={Replay}
-              onClick={this.resetScheduleMode}
-              className="pointer"
-            />
-          )}
+            {this.state.schedule &&
+              this.state.schedule.length > 0 && (
+                <Button
+                  size="massive"
+                  onClick={this.onNext}
+                >
+                  <Icon name="step forward" color="black" />
+                </Button>
+              )}
+            {this.state.schedule && (
+              <Button
+                size="massive"
+                onClick={this.resetScheduleMode}
+              >
+                <Icon name="undo" color="black"/>
+              </Button>
+            )}
         </div>
       </div>
     );
