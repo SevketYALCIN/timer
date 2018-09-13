@@ -3,7 +3,7 @@ import Timer from '../timer/timer';
 import Pane from '../pane/pane';
 import './app.scss';
 import * as Menu from '../../assets/menu.svg';
-import * as Alert from '../../assets/alert.mp3';
+import * as Alert from '../../assets/bell.mp3';
 
 class App extends React.Component<null, AppState> {
   audioInput: React.RefObject<HTMLAudioElement>;

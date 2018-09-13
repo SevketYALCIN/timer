@@ -1,11 +1,5 @@
 import * as React from 'react';
 import './timer.scss';
-import * as Arrow from '../../assets/arrow.svg';
-import * as Play from '../../assets/play.svg';
-import * as Stop from '../../assets/stop.svg';
-import * as Pause from '../../assets/pause.svg';
-import * as Skip from '../../assets/skip.svg';
-import * as Replay from '../../assets/replay.svg';
 import { ScheduleItem } from '../app/app';
 import { Button, Icon } from 'semantic-ui-react';
 
