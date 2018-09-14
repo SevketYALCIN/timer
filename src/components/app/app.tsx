@@ -4,6 +4,8 @@ import Pane from '../pane/pane';
 import './app.scss';
 import * as Menu from '../../assets/menu.svg';
 import * as Alert from '../../assets/bell.mp3';
+import { Helmet } from 'react-helmet';
+import * as Favicon from '../../assets/favicon.png';
 
 class App extends React.Component<null, AppState> {
   audioInput: React.RefObject<HTMLAudioElement>;
@@ -52,6 +54,10 @@ class App extends React.Component<null, AppState> {
   render() {
     return (
       <div className="app">
+        <Helmet>
+          {' '}
+          <link rel="icon" type="image/png" href={Favicon} />
+        </Helmet>
         {this.state.showPane && (
           <div id="blurBackground" onClick={this.hideMenu} />
         )}
