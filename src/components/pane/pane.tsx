@@ -2,7 +2,7 @@ import * as React from 'react';
 import './pane.scss';
 import { ScheduleItem } from '../app/app';
 import * as Cross from '../../assets/cross.svg';
-import { Checkbox, Button, Input } from 'semantic-ui-react';
+import { Checkbox, Button, Input, Divider } from 'semantic-ui-react';
 
 export default class Pane extends React.Component<PaneProps, PaneState> {
   matchRegex: RegExp = /\d{1,2}:\d{2}/
@@ -93,6 +93,7 @@ export default class Pane extends React.Component<PaneProps, PaneState> {
           checked={this.state.playSound}
           onChange={this.toggleSound}
         />
+        <Divider />
         <h2>Schedule</h2>
         <div className="schedule-container">
           <Button secondary onClick={this.addClick}>
@@ -109,6 +110,7 @@ export default class Pane extends React.Component<PaneProps, PaneState> {
             Save and Apply
           </Button>
         </div>
+        <Divider />
       </div>
     );
   }
