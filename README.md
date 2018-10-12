@@ -1,17 +1,19 @@
 # timer
 
-Full screen timer application with schedule planner, check it out here: https://wizardly-varahamihira-2e63e2.netlify.com/
+🕒 Full screen timer application with scheduler built with React running on production:  https://forcia-timer.netlify.com/
 
-React/Typescript/Sass boilerplate used: https://github.com/SevketYALCIN/webpack-react-typescript-boilerplate
+## Includes
 
-To start the development environment, run:
+- React
+- Typescript
+- Sass
 
-```
-npm start
-```
+## Run on your machine
 
-To build and generate static files, run:
+- Clone this repo
+- `yarn` or `npm install`
+- `npm start`
 
-```
-npm run build
-```
+## Improve
+
+Feedback is more than appreciated via [Twitter](https://twitter.com/sev_yalcin)
